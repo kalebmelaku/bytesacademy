@@ -8,8 +8,8 @@ import Contact from "../components/contact";
 function Home() {
 	return (
 		<>
-			<div className="py-3 font-montserrat container md:mx-auto">
 				<Navbar />
+			<div className="py-3 font-montserrat container md:mx-auto">
 				<Hero />
 				<AboutUs />
 				<Courses />

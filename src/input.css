@@ -2,3 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+    scroll-behavior: smooth;
+    scroll-snap-type: proximity;
+    scroll-padding-top: 1.5rem;
+}
