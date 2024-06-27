@@ -5,7 +5,6 @@ import { FaGraduationCap } from "react-icons/fa";
 import { SidebarContext } from "../context/sidebarContext";
 
 function Navbar() {
-	const { isOpen, setIsOpen } = useContext(SidebarContext);
 	return (
 		<div className="flex items-center justify-between py-3 mx-2">
 			{/* navbar */}

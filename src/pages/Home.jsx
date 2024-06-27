@@ -1,14 +1,20 @@
 import React from "react";
 import Navbar from "../components/navbar";
 import Hero from "../components/hero";
-import Sidebar from "../components/sidebar";
+import AboutUs from "../components/aboutus";
+import Courses from "../components/courses";
+import Services from "../components/services";
+import Contact from "../components/contact";
 
 function Home() {
 	return (
-		<div className="py-3 md:h-screen font-montserrat container md:mx-auto overflow-x-hidden">
+		<div className="py-3 md:h-screen font-montserrat container md:mx-auto">
 			<Navbar />
-			<Sidebar />
 			<Hero />
+			<AboutUs />
+			<Courses/>
+			<Services/>
+			<Contact />
 		</div>
 	);
 }
