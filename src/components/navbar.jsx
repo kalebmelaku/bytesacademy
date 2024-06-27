@@ -6,7 +6,7 @@ import { SidebarContext } from "../context/sidebarContext";
 
 function Navbar() {
 	return (
-		<div className="sticky top-0 left-0 bg-white">
+		<div className="sticky top-0 left-0 bg-white z-50">
 			{/* navbar */}
 			<div className="flex items-center justify-between py-3 mx-2 md:mx-auto container">
 				<img className="w-48" src={Logo} alt="" />
