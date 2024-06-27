@@ -8,7 +8,7 @@ import Contact from "../components/contact";
 function Home() {
 	return (
 		<>
-			<div className="py-3 md:h-screen font-montserrat container md:mx-auto">
+			<div className="py-3 font-montserrat container md:mx-auto">
 				<Navbar />
 				<Hero />
 				<AboutUs />
