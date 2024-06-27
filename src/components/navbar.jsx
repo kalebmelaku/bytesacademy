@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import Logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
+import { FaGraduationCap } from "react-icons/fa";
 import { SidebarContext } from "../context/sidebarContext";
 
 function Navbar() {
@@ -50,10 +51,11 @@ function Navbar() {
 				</li>
 			</ul>
 			<Link
-				className="bg-primary rounded-md px-7 py-2 hover:bg-secondary hover:text-white transition-colors duration-300 hidden lg:block"
-				to={"/#contact"}
+				className="bg-primary rounded-md px-7 py-2 hover:bg-secondary hover:text-white transition-colors duration-300 hidden lg:flex items-center justify-around"
+				to={"/register"}
 			>
-				Contact
+				<FaGraduationCap className="text-2xl mr-4" />
+				Register
 			</Link>
 
 			{/* hamburger menu */}
