@@ -5,7 +5,7 @@ import Sidebar from "../components/sidebar";
 
 function Home() {
 	return (
-		<div className="w-full py-3 px-15 lg:px-32 mx-auto md:h-screen font-montserrat">
+		<div className="py-3 md:h-screen font-montserrat container md:mx-auto overflow-x-hidden">
 			<Navbar />
 			<Sidebar />
 			<Hero />

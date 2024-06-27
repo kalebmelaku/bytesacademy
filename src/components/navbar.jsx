@@ -7,7 +7,7 @@ import { SidebarContext } from "../context/sidebarContext";
 function Navbar() {
 	const { isOpen, setIsOpen } = useContext(SidebarContext);
 	return (
-		<div className="flex items-center justify-between py-3 mx-4">
+		<div className="flex items-center justify-between py-3 mx-2">
 			{/* navbar */}
 			<img className="w-48" src={Logo} alt="" />
 
@@ -51,22 +51,22 @@ function Navbar() {
 				</li>
 			</ul>
 			<Link
-				className="bg-primary rounded-md px-7 py-2 hover:bg-secondary hover:text-white transition-colors duration-300 hidden lg:flex items-center justify-around"
+				className="bg-secondary md:bg-primary rounded-md px-4 md:px-7 py-2 hover:bg-primary md:hover:secondary  hover:text-white transition-colors duration-300 lg:flex items-center justify-around"
 				to={"/register"}
 			>
-				<FaGraduationCap className="text-2xl mr-4" />
+				<FaGraduationCap className="text-2xl mr-4 hidden md:block" />
 				Register
 			</Link>
 
 			{/* hamburger menu */}
-			<button
+			{/* <button
 				className="space-y-1 group lg:hidden"
 				onClick={() => setIsOpen(!isOpen)}
 			>
 				<div className="w-6 h-1 bg-black"></div>
 				<div className="w-3 h-1 bg-black ml-auto"></div>
 				<div className="w-6 h-1 bg-black"></div>
-			</button>
+			</button> */}
 			{/* menu */}
 			{/* <ul className="bg-primary w-screen h-screen absolute -top-full group-focus:top-0 right-0 duration-150 flex flex-col space-y-3 justify-evenly">
 					<button className="px-10 py-8 relative ml-auto">

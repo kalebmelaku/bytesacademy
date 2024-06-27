@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 function HeroText() {
 	return (
-		<div className="ml-10 flex flex-col px-5 py-20 lg:py-40 lg:justify-center">
+		<div className="md:ml-10 flex flex-col px-5 py-20 lg:py-40 lg:justify-center">
 			<p className="pb-5 text-lg flex items-center">
-				<div className="w-10 h-[2px] bg-white mr-3"></div>
+				<div className="w-10 h-[2px] bg-white md:mr-3"></div>
 				Welcome to Bytes Academy
 			</p>
 			<p className="text-4xl lg:text-7xl pb-3 font-aclonica">
