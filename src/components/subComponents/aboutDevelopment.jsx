@@ -5,7 +5,7 @@ import ProjectTwo from '../../assets/ProjectTwo.jpg';
 import ProjectThree from '../../assets/ProjectThree.jpg';
 function AboutDevelopment() {
 	return (
-		<div className="container mx-auto">
+		<div className="container md:mx-auto mx-2">
 			<div className="flex flex-wrap items-center justify-between -mx-4">
 				<div className="w-full px-4 lg:w-1/2 xl:w-5/12">
 					<div className="mt-10 lg:mt-0">

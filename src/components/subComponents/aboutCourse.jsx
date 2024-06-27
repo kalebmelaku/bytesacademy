@@ -5,7 +5,7 @@ import CourseTwo from '../../assets/courseTwo.jpeg'
 import CourseThree from '../../assets/courseThree.jpeg'
 function AboutCourse() {
 	return (
-		<div className="container mx-auto">
+		<div className="container md:mx-auto mx-2">
 			<div className="flex flex-wrap items-center justify-between -mx-4">
 				<div className="w-full px-4 lg:w-6/12 order-2 md:order-1">
 					<div className="flex items-center -mx-3 sm:-mx-4">
