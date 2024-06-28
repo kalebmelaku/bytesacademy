@@ -1,23 +1,57 @@
-import React, { useContext } from "react";
+import React, {useEffect, useState } from "react";
 import Logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaGraduationCap } from "react-icons/fa";
 import { SidebarContext } from "../context/sidebarContext";
 
 function Navbar() {
+	const location = useLocation();
+	const [isActive, setIsActive] = useState(false);
+	const currLocation = location.hash.substring(1, location.hash.length);
+	let about,
+		courses,
+		services,
+		contact,
+		home = "";
+	switch (currLocation) {
+		case "about":
+			about = "underline underline-offset-8";
+			break;
+		case "courses":
+			courses = "underline underline-offset-8";
+			break;
+		case "services":
+			services = "underline underline-offset-8";
+			break;
+		case "contact":
+			contact = "underline underline-offset-8";
+			break;
+		default:
+			home = "underline underline-offset-8";
+			break;
+	}
+	useEffect(() => {
+		window.addEventListener("scroll", () => {
+			window.scrollY > 60 ? setIsActive(true) : setIsActive(false);
+		});
+	});
+
 	return (
-		<div className="sticky top-0 left-0 bg-white z-50">
+		<div className={`${isActive ? "sticky top-0 left-0 bg-white z-50 shadow-lg" : "sticky top-0 left-0 bg-white z-50"}`}>
 			{/* navbar */}
 			<div className="flex items-center justify-between py-3 mx-2 md:mx-auto container">
 				<img className="w-48" src={Logo} alt="" />
 
 				<ul className="hidden lg:flex items-center space-x-5 text-black">
-					<li>
-						<a className="hover:underline hover:underline-offset-4" href={"/#home"}>
+					<li className={home}>
+						<a
+							className="hover:underline hover:underline-offset-4"
+							href={"/#home"}
+						>
 							Home
 						</a>
 					</li>
-					<li>
+					<li className={about}>
 						<a
 							className="hover:underline hover:underline-offset-4"
 							href={"/#about"}
@@ -25,15 +59,15 @@ function Navbar() {
 							About Us
 						</a>
 					</li>
-					<li>
+					<li className={courses}>
 						<a
 							className="hover:underline hover:underline-offset-4"
 							href={"/#courses"}
 						>
-							Course
+							Courses
 						</a>
 					</li>
-					<li>
+					<li className={services}>
 						<a
 							className="hover:underline hover:underline-offset-4"
 							href={"/#services"}
@@ -41,7 +75,7 @@ function Navbar() {
 							Services
 						</a>
 					</li>
-					<li>
+					<li className={contact}>
 						<a
 							className="hover:underline hover:underline-offset-4"
 							href={"/#contact"}
