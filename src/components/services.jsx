@@ -5,7 +5,10 @@ import { MdCastForEducation } from "react-icons/md";
 import { GrSystem } from "react-icons/gr";
 function Services() {
 	return (
-		<div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl lg:py-20" id="services">
+		<div
+			className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl lg:py-20"
+			id="services"
+		>
 			<div className="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
 				<div>
 					<p className="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider uppercase rounded-full bg-primary text-white">

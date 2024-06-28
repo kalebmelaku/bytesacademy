@@ -4,10 +4,10 @@ import Line from "./subComponents/line";
 function HeroText() {
 	return (
 		<div className="md:ml-10 flex flex-col px-5 py-20 lg:py-40 lg:justify-center">
-			<p className="pb-5 text-lg flex items-center">
+			<div className="pb-5 text-lg flex items-center">
 				<Line color="white" />
 				Welcome to Bytes Academy
-			</p>
+			</div>
 			<p className="text-4xl lg:text-7xl pb-3 font-aclonica">
 				The New Way To Learn Online
 			</p>
@@ -16,13 +16,12 @@ function HeroText() {
 				learning schedules tailored to your needs, all at an affordable price.
 			</p>
 			<div className="ctas mt-5">
-				<Link
+				<a
 					className="text-lg font-semibold z-20 bg-white rounded-lg px-10 py-3 hover:bg-secondary hover:text-white transition-colors duration-300"
-					to={"/#learnmore"}
+					href={"/#services"}
 				>
 					Learn More
-				</Link>
-				{/* <Link className="text-lg font-semibold text-white outline outline-white bg-secondary rounded-lg px-10 py-3 ml-5" to={'/#learnmore'}>Learn More</Link> */}
+				</a>
 			</div>
 		</div>
 	);
