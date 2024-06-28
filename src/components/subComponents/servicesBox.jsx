@@ -1,5 +1,4 @@
 import React from "react";
-import { FaLaptopCode } from "react-icons/fa";
 function ServicesBox(props) {
 	const title = props.title;
 	const desc = props.desc;
