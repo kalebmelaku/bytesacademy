@@ -16,7 +16,7 @@ function AboutDevelopment() {
 							Transform Your Vision with Custom Digital Solutions
 						</h2>
 						<p className="mb-5 text-base text-body-color ">
-							## About Us Welcome to Bytes Academy, your premier choice for
+							Your premier choice for
 							professional software development services. We specialize in
 							creating custom digital solutions that meet your unique needs.
 							From sleek and user-friendly websites to powerful and efficient
