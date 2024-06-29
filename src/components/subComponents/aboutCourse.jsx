@@ -1,8 +1,8 @@
 import React from "react";
 import Dots from "./dots";
 import CourseOne from '../../assets/CourseOne.jpg'
-import CourseTwo from '../../assets/courseTwo.jpeg'
-import CourseThree from '../../assets/courseThree.jpeg'
+import CourseTwo from '../../assets/CourseTwo.jpeg'
+import CourseThree from '../../assets/CourseThree.jpeg'
 function AboutCourse() {
 	return (
 		<div className="container md:mx-auto mx-2">
