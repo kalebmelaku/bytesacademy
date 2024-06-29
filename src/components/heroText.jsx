@@ -8,7 +8,7 @@ function HeroText() {
 				<Line color="white" />
 				Welcome to Bytes Academy
 			</div>
-			<p className="text-4xl lg:text-7xl pb-3 font-aclonica">
+			<p className="text-4xl xl:text-7xl pb-3 font-aclonica">
 				The New Way To Learn Online
 			</p>
 			<p className="md:text-xl lg:w-full mb-5 py-3">

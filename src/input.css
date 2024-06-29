@@ -5,5 +5,5 @@
 *{
     scroll-behavior: smooth;
     scroll-snap-type: proximity;
-    scroll-padding-top: 1.5rem;
+    scroll-padding-top: 2.5rem;
 }

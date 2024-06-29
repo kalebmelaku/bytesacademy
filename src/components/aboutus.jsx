@@ -8,7 +8,7 @@ function AboutUs() {
 	return (
 		<>
 			<div
-				className="overflow-hidden container md:mx-auto pt-10 pb-12 md:pt-20 lg:pb-[60px]"
+				className="overflow-hidden container md:mx-auto pt-10 pb-12 md:pt-12 lg:pb-[10px]"
 				id="about"
 			>
 				<AboutCourse />
