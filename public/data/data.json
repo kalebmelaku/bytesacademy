@@ -17,7 +17,7 @@
       "img": "https://i.ibb.co/SPtLHkQ/js.jpg",
       "price": "500 BIRR",
       "status": "Published",
-      "requirement": "",
+      "requirement": [""],
       "whatToLearn": []
     },
     {

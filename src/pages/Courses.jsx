@@ -56,19 +56,57 @@ function Courses() {
 					</div>
 				</div>
 			</div>
-			<div className="py-3 font-montserrat container md:mx-auto flex flex-col justify-start items-center">
+			<div className="py-3 font-montserrat container md:mx-auto flex flex-col justify-center items-center border">
 				<h1 className="text-2xl font-semibold">What You Will Learn</h1>
-				<ul className="ml-2">
+				<ul className="ml-2 grid grid-cols-1 md:grid-cols-2">
 					{whatToLearn.map((what) => {
-						return <li className="ml-4 py-2">{what}</li>;
+						return (
+							<li className="ml-4 py-4 flex">
+								<span className="mr-1">
+									<svg
+										className="w-5 h-5 mt-px text-secondary"
+										stroke="currentColor"
+										viewBox="0 0 52 52"
+									>
+										<polygon
+											strokeWidth="4"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											fill="none"
+											points="29 13 14 29 25 29 23 39 38 23 27 23"
+										></polygon>
+									</svg>
+								</span>
+								{what}
+							</li>
+						);
 					})}
 				</ul>
 			</div>
-			<div className="py-3 font-montserrat container md:mx-auto flex flex-col justify-start items-center">
+			<div className="py-3 font-montserrat container md:mx-auto flex flex-col justify-center items-center">
 				<h1 className="text-2xl font-semibold">Requirements</h1>
-				<ul className="ml-2">
+				<ul className="ml-2 grid md:grid-cols-2">
 					{requirement.map((what) => {
-						return <li className="ml-4 py-2">{what}</li>;
+						return (
+							<li className="ml-4 py-4 flex">
+								<span className="mr-1">
+									<svg
+										className="w-5 h-5 mt-px text-secondary"
+										stroke="currentColor"
+										viewBox="0 0 52 52"
+									>
+										<polygon
+											strokeWidth="4"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											fill="none"
+											points="29 13 14 29 25 29 23 39 38 23 27 23"
+										></polygon>
+									</svg>
+								</span>
+								{what}
+							</li>
+						);
 					})}
 				</ul>
 			</div>
