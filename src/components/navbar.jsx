@@ -37,7 +37,7 @@ function Navbar() {
 	});
 
 	return (
-		<div className={`${isActive ? "sticky top-0 left-0 bg-white z-50 shadow-lg" : "sticky top-0 left-0 bg-white z-50"}`}>
+		<div className={`${isActive ? "sticky top-0 left-0 bg-white z-50 shadow-lg" : "sticky top-0 left-0 bg-white z-50 mx-2"}`}>
 			{/* navbar */}
 			<div className="flex items-center justify-between py-3 mx-2 md:mx-auto container">
 				<img className="w-48" src={Logo} alt="" />

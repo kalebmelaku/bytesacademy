@@ -6,7 +6,9 @@
       "desc": "Learn the basics of web development with HTML and CSS. This course covers everything from the foundational elements to advanced styling techniques. You'll start by understanding the structure of websites using HTML and create visually appealing designs with CSS.",
       "img": "https://i.ibb.co/kXFhQFC/htmlandcss.png",
       "price": "Free",
-      "status": "Published"
+      "status": "Published",
+      "requirement": ["This course is for any developer, beginner to advanced", "Active Internet Connection", "A laptop or desktop computer"],
+      "whatToLearn": ["Build 3 High Quality Websites Along With Mini-Projects", "Semantic Elements, Box Model, Transitions, Keyframes, Pseudo Selectors & More", "Create Responsive Websites With Media Queries, Relative Units & Flexible Layouts", "Create Flexible Layouts WIth Flexbox & CSS Grid", "Learn The Basics of Git, GitHub and Website Deployment"  ]
     },
     {
       "id": 2,
@@ -14,7 +16,9 @@
       "desc": "Master the fundamentals of JavaScript, the programming language of the web. This course takes you from the very basics to advanced concepts. You'll learn about variables, functions, and objects, as well as how to manipulate the DOM and handle events. ",
       "img": "https://i.ibb.co/SPtLHkQ/js.jpg",
       "price": "500 BIRR",
-      "status": "Published"
+      "status": "Published",
+      "requirement": "",
+      "whatToLearn": []
     },
     {
       "id": 3,
@@ -22,7 +26,9 @@
       "desc": "Dive into React, a popular library for building user interfaces. This course will guide you through the core concepts of React, including components, state, and props. You'll learn how to build dynamic, responsive web applications that provide a seamless user experience. ",
       "img": "https://i.ibb.co/d415Szv/react.png",
       "price": "800 BIRR",
-      "status": "Published"
+      "status": "Published",
+      "requirement": "",
+      "whatToLearn": []
     },
     {
       "id": 4,
@@ -30,7 +36,9 @@
       "desc": "Learn how to build server-side applications with Node.js. This course covers everything from setting up your environment to deploying your application. You'll learn about modules, file systems, and asynchronous programming. ",
       "img": "https://i.ibb.co/Wn7LQwp/node.png",
       "price": "800 BIRR",
-      "status": "Pending"
+      "status": "Pending",
+      "requirement": "",
+      "whatToLearn": []
     },
     {
       "id": 5,
@@ -38,7 +46,9 @@
       "desc": "Understand the basics of PHP for backend web development. This course introduces you to PHP syntax and guides you through creating dynamic web pages. You'll learn how to handle form data, interact with databases, and create sessions.",
       "img": "https://i.ibb.co/ZY4xz15/php.jpg",
       "price": "500 BIRR",
-      "status": "Pending"
+      "status": "Pending",
+      "requirement": "",
+      "whatToLearn": []
     },
     {
       "id": 6,
@@ -46,7 +56,9 @@
       "desc": "Build beautiful native apps for mobile, web, and desktop with Flutter. This course covers everything from the basics of Dart programming to advanced Flutter concepts. You'll learn how to create visually appealing UIs, manage state, and handle navigation.",
       "img": "https://i.ibb.co/8PKdLsG/flutter.png",
       "price": "1000 BIRR",
-      "status": "Pending"
+      "status": "Pending",
+      "requirement": "",
+      "whatToLearn": []
     },
     {
       "id": 7,
@@ -54,7 +66,9 @@
       "desc": "Learn to build full-stack applications with MongoDB, Express, React, and Node.js. This comprehensive course covers everything you need to know to become a full-stack developer. You'll start with the basics of each technology and then move on to building and deploying a complete application.",
       "img": "https://i.ibb.co/9nYhrk3/mern.jpg",
       "price": "2000 BIRR",
-      "status": "Pending"
+      "status": "Pending",
+      "requirement": "",
+      "whatToLearn": []
     }
   ]
 }
