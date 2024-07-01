@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../assets/logo.png";
 import { Link, useLocation } from "react-router-dom";
 import { FaGraduationCap } from "react-icons/fa";
@@ -13,20 +13,33 @@ function Navbar() {
 		services,
 		contact,
 		home = "";
+	if (location.pathname == "register" && currLocation == "") {
+		home = "";
+		about = "";
+		courses = "";
+		services = "";
+		contact = "";
+	} else if (location.pathname == "/") {
+		home = "underline underline-offset-8";
+	}
 	switch (currLocation) {
 		case "about":
 			about = "underline underline-offset-8";
+			home = "";
 			break;
 		case "courses":
 			courses = "underline underline-offset-8";
+			home = "";
 			break;
 		case "services":
 			services = "underline underline-offset-8";
+			home = "";
 			break;
 		case "contact":
 			contact = "underline underline-offset-8";
+			home = "";
 			break;
-		default:
+		case "home":
 			home = "underline underline-offset-8";
 			break;
 	}
@@ -37,7 +50,13 @@ function Navbar() {
 	});
 
 	return (
-		<div className={`${isActive ? "sticky top-0 left-0 bg-white z-50 shadow-lg" : "sticky top-0 left-0 bg-white z-50 mx-2"}`}>
+		<div
+			className={`${
+				isActive
+					? "md:sticky top-0 left-0 bg-white z-50 shadow-lg"
+					: "md:sticky top-0 left-0 bg-white z-50 mx-2"
+			}`}
+		>
 			{/* navbar */}
 			<div className="flex items-center justify-between py-3 mx-2 md:mx-auto container">
 				<img className="w-48" src={Logo} alt="" />
