@@ -17,8 +17,16 @@
       "img": "https://i.ibb.co/SPtLHkQ/js.jpg",
       "price": "500 BIRR",
       "status": "Published",
-      "requirement": [""],
-      "whatToLearn": []
+      "requirement": ["A basic grasp of HTML & CSS (how to create simple, static web pages)",
+      "This course is for any developer, beginner to advanced", 
+      "Active Internet Connection", "A laptop or desktop computer"
+    ],
+      "whatToLearn": ["Learn how to program with modern JavaScript, from the very beginning to more advanced topics",
+                    "Learn how to create real-world front-end applications with JavaScript (quizes, weather apps, chat rooms etc)",
+                    "Learn how to use modern, cutting-edge JavaScript features today by using a modern workflow",
+                    "Explore API's to make the most of third-party data (such as weather information)",
+                    "Learn how to make useful JavaScript driven UI components like popups, drop-downs, tabs, tool-tips & more.",
+                    "Learn how to use real-time databases to store, retrieve and update application data"]
     },
     {
       "id": 3,
@@ -27,8 +35,12 @@
       "img": "https://i.ibb.co/d415Szv/react.png",
       "price": "800 BIRR",
       "status": "Published",
-      "requirement": "",
-      "whatToLearn": []
+      "requirement": ["You should know JavasScript pretty well before learning React or any framework", "This course is for any developer, beginner to advanced", "Active Internet Connection", "A laptop or desktop computer"],
+      "whatToLearn": ["Learn how to create modern & dynamic React websites from the ground up",
+    "Learn about Components, Props, Hooks, Context, State, Reducers & the React Router",
+    "Create & deploy fully fledged user-based React websites",
+    "Suitable For Both Beginners & Intermediate React Developers"
+  ]
     },
     {
       "id": 4,
