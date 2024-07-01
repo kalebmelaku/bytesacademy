@@ -29,6 +29,7 @@ function Courses() {
 							desc={course.desc}
 							img={course.img}
 							price={course.price}
+							status = {course.status}
 						/>
 					);
 				})}
