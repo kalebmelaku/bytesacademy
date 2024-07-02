@@ -795,10 +795,6 @@ video {
   margin-top: 1px;
 }
 
-.mb-0 {
-  margin-bottom: 0px;
-}
-
 .line-clamp-6 {
   overflow: hidden;
   display: -webkit-box;
@@ -872,10 +868,6 @@ video {
 
 .h-screen {
   height: 100vh;
-}
-
-.min-h-screen {
-  min-height: 100vh;
 }
 
 .w-10 {
