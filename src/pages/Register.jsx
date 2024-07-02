@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/navbar";
 import logo from "../../src/assets/logo.png";
 import Lottie from "lottie-react";
@@ -11,10 +11,15 @@ function Register() {
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
+	const [regStatus, setRegStatus] = useState(false)
 	const onSubmit = async (data) => {
 		try {
 			const response = await axios.post("http://localhost:5000/register", data);
-			console.log(response.data);
+			if (response.status === 200) {
+				setRegStatus(true)
+			} else {
+				setRegStatus(false)
+			}
 		} catch (err) {
 			console.error(err);
 		}
