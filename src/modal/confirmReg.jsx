@@ -1,68 +1,40 @@
 import React from "react";
+import { FaCheckCircle } from "react-icons/fa";
 
-function ConfirmReg() {
+function ConfirmReg(props) {
+	const error = props.error;
+	const status = props.status;
+
 	return (
 		<div
-			id="modelConfirm"
-			class="fixed hidden z-50 inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 "
+			className={`${
+				status === 200
+					? "bg-green-200 px-6 py-4 mx-2 mb-8  rounded-md text-lg flex items-center md:mx-auto max-w-lg"
+					: "bg-red-200 px-6 py-4 mx-2 mb-8  rounded-md text-lg flex items-center md:mx-auto max-w-lg"
+			}`}
 		>
-			<div class="relative top-40 mx-auto shadow-xl rounded-md bg-white max-w-md">
-				<div class="flex justify-end p-2">
-					<button
-						onclick="closeModal('modelConfirm')"
-						type="button"
-						class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-					>
-						<svg
-							class="w-5 h-5"
-							fill="currentColor"
-							viewBox="0 0 20 20"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								fill-rule="evenodd"
-								d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-								clip-rule="evenodd"
-							></path>
-						</svg>
-					</button>
-				</div>
-
-				<div class="p-6 pt-0 text-center">
-					<svg
-						class="w-20 h-20 text-red-600 mx-auto"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-						></path>
-					</svg>
-					<h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">
-						Are you sure you want to delete this user?
-					</h3>
-					<a
-						href="#"
-						onclick="closeModal('modelConfirm')"
-						class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2"
-					>
-						Yes, I'm sure
-					</a>
-					<a
-						href="#"
-						onclick="closeModal('modelConfirm')"
-						class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center"
-						data-modal-toggle="delete-user-modal"
-					>
-						No, cancel
-					</a>
-				</div>
-			</div>
+			<svg
+				viewBox="0 0 24 24"
+				className={`${
+					status === 200
+						? "text-green-600 w-5 h-5 sm:w-5 sm:h-5 mr-3"
+						: "text-red-600 w-5 h-5 sm:w-5 sm:h-5 mr-3"
+				}`}
+			>
+				<path
+					fill="currentColor"
+					d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z"
+				></path>
+			</svg>
+			<span
+				className={`${
+					status === 200
+						? "text-green-800 w-full whitespace-nowrap"
+						: "text-red-800 w-full whitespace-nowrap"
+				}`}
+			>
+				{error}
+			</span>
 		</div>
 	);
 }
