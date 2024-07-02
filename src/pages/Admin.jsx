@@ -12,7 +12,7 @@ function Admin() {
 		react: 0,
 	});
 	useEffect(() => {
-		const ws = new WebSocket("ws://localhost:5000");
+		const ws = new WebSocket(`ws://${import.meta.env.VITE_API_KEY}`);
 
 		ws.onmessage = (event) => {
 			const data = JSON.parse(event.data);
