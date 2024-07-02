@@ -2,8 +2,23 @@ import React from "react";
 import Navbar from "../components/navbar";
 import logo from "../../src/assets/logo.png";
 import Lottie from "lottie-react";
+import axios from "axios";
 import Code from "../Code.json";
+import { useForm } from "react-hook-form";
 function Register() {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+	const onSubmit = async (data) => {
+		try {
+			const response = await axios.post("http://localhost:5000/register", data);
+			console.log(response.data);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 	return (
 		<>
 			<Navbar />
@@ -16,52 +31,64 @@ function Register() {
 							</div>
 							<div class="mt-12 flex flex-col items-center">
 								<div class="w-full flex-1 mt-8">
-									<form action="">
+									<form onSubmit={handleSubmit(onSubmit)}>
 										<div class="mx-auto">
 											<div className="flex flex-col md:flex-row items-center justify-between gap-x-4">
 												<input
+													required
 													class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
 													type="text"
+													id="fname"
+													{...register("fname", { required: true })}
 													placeholder="First Name"
 												/>
 												<input
+													required
 													class="mt-5 md:mt-0 w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
 													type="text"
+													id="lname"
+													{...register("lname", { required: true })}
 													placeholder="Last Name"
 												/>
 											</div>
 											<div className="flex flex-col md:flex-row items-center justify-between gap-x-4 mt-5">
 												<input
+													required
 													class=" w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
 													type="email"
+													id="email"
+													{...register("email", { required: true })}
 													placeholder="Email"
 												/>
 												<input
+													required
 													class="mt-5 md:mt-0 w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
 													type="tel"
+													id="phone"
+													{...register("phone", { required: true })}
 													placeholder="Phone Number"
 												/>
 											</div>
 											<div className="flex items-center justify-between gap-x-4 mt-5">
 												<select
 													class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-													type="email"
-													placeholder="Email"
 													required
+													id="course"
+													{...register("course", { required: true })}
 												>
 													<option value={""} disabled selected>
 														Select a course
 													</option>
 													<option value="html">HTML AND CSS</option>
-													<option value="js">JAVASCRIPT</option>
+													<option value="javascript">JAVASCRIPT</option>
 													<option value="react">REACT</option>
 												</select>
 											</div>
 											<div className="flex items-center justify-between gap-x-4 mt-5">
 												<select
 													class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-													type="email"
-													placeholder="Email"
+													id="education"
+													{...register("education", { required: true })}
 													required
 												>
 													<option value={""} disabled selected>

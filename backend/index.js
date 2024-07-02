@@ -26,17 +26,27 @@ app.get('/', (req, res) =>
     res.json('This is backend');
 });
 
+app.post('/register', (req, res) =>
+{
+    const { fname, lname, email, phone, course, education } = req.body;
+
+    console.log(fname, lname, phone, email, phone, course, education);
+})
+
+
 app.post('/mail', (req, res) =>
 {
     const { id } = req.body;
     let mailDetails = {
         from: '"Bytes Academy" <bytesacademy@hotmail.com>',
-        to: "kalebmelaku97@gmail.com",
+        to: id,
         subject: 'OTP Verification',
         text: `Your OTP for email verification is`
     };
     sendMail(mailDetails);
 });
+
+
 let mailTransporter = nodemailer.createTransport({
     service: 'hotmail',
     auth: {
