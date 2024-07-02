@@ -22,7 +22,7 @@ model Students{
   id Int @id @default(autoincrement())
   fname String
   lname String
-  email String
+  email String @unique
   phone String
   course String
   education String
