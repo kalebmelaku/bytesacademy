@@ -10,13 +10,6 @@ const { all } = require('axios');
 const app = express();
 const { PrismaClient } = require('@prisma/client');
 
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'seng',
-});
-
 // app.use(express.json())
 app.use(cors());
 app.use(bodyParser.json());
@@ -43,9 +36,9 @@ app.post('/register', async (req, res) => {
                 }
             ]
         });
-        res.status(200).json(user)
-    } catch (err) { 
-        console.log(err)
+        res.status(200).json(user);
+    } catch (err) {
+        console.log(err);
     }
 });
 
