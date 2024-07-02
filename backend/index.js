@@ -1,21 +1,60 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
-const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const http = require('http');
 const cors = require('cors');
-const { all } = require('axios');
 const app = express();
 const { PrismaClient } = require('@prisma/client');
+const WebSocket = require('ws');
+
 
 // app.use(express.json())
 app.use(cors());
 app.use(bodyParser.json());
 
+
+const wss = new WebSocket.Server({ noServer: true });
+let connections = [];
 const prisma = new PrismaClient();
 
+// WebSocket handling
+wss.on('connection', (ws) => {
+    console.log('New WebSocket connection');
+    connections.push(ws);
+
+    ws.on('close', () => {
+        console.log('WebSocket connection closed');
+        connections = connections.filter(conn => conn !== ws);
+    });
+
+    ws.on('error', (error) => {
+        console.error('WebSocket error:', error);
+    });
+});
+
+
+const notifyClients = async () => {
+    const totalStudents = await prisma.students.count();
+    const htmlStudents = await prisma.students.count({ where: { course: 'html and css' } });
+    const jsStudents = await prisma.students.count({ where: { course: 'javascript' } });
+    const reactStudents = await prisma.students.count({ where: { course: 'react' } });
+
+    const data = {
+        total: totalStudents,
+        html: htmlStudents,
+        js: jsStudents,
+        react: reactStudents
+    };
+
+    connections.forEach(ws => {
+        if (ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify(data));
+        }
+    });
+};
+setInterval(async () => {
+    await notifyClients();
+  }, 1000);
 //Routes
 app.get('/', (req, res) => {
     res.json('This is backend');
@@ -359,6 +398,43 @@ app.post('/register', async (req, res) => {
     }
 });
 
+app.get('/fetchRegStudents', async (req, res) => {
+    // notifyClients();
+    // try {
+    //     // Fetch total students count
+    //     const totalStudents = await prisma.students.count();
+
+    //     // Fetch counts based on courses
+    //     const htmlStudents = await prisma.students.count({
+    //         where: { course: 'html and css' }
+    //     });
+
+    //     const jsStudents = await prisma.students.count({
+    //         where: { course: 'javascript' }
+    //     });
+
+    //     const reactStudents = await prisma.students.count({
+    //         where: { course: 'react' }
+    //     });
+
+    //     // Respond with JSON data
+    //     res.json({
+    //         total: totalStudents,
+    //         html: htmlStudents,
+    //         js: jsStudents,
+    //         react: reactStudents
+    //     });
+    // } catch (error) {
+    //     console.error('Error fetching student data:', error);
+    //     res.status(500).json({ error: 'Internal server error' });
+    // }
+});
+
+
+
+
+
+
 
 let mailTransporter = nodemailer.createTransport({
     service: 'hotmail',
@@ -379,6 +455,13 @@ function sendMail(mailDetails, res) {
     });
 
 }
-app.listen(5000, () => {
+
+const server = app.listen(5000, () => {
     console.log('Connected to Backend');
+});
+// Upgrade HTTP server to handle WebSocket
+server.on('upgrade', (request, socket, head) => {
+    wss.handleUpgrade(request, socket, head, (ws) => {
+        wss.emit('connection', ws, request);
+    });
 });

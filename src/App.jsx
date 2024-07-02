@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Footer from "./components/footer";
 import Courses from "./pages/Courses";
+import Admin from "./pages/Admin";
 
 function App() {
 	return (
@@ -12,6 +13,7 @@ function App() {
 					<Route path="/" element={<Home />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/courses/:id" element={<Courses />} />
+					<Route path="/admin" element={<Admin />} />
 				</Routes>
 				<Footer />
 			</Router>
