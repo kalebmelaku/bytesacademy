@@ -8,6 +8,7 @@ const http = require('http');
 const cors = require('cors');
 const { all } = require('axios');
 const app = express();
+const { PrismaClient } = require('@prisma/client');
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -20,22 +21,59 @@ const db = mysql.createConnection({
 app.use(cors());
 app.use(bodyParser.json());
 
+const prisma = new PrismaClient();
+
 //Routes
-app.get('/', (req, res) =>
-{
+app.get('/', (req, res) => {
     res.json('This is backend');
 });
 
-app.post('/register', (req, res) =>
-{
+app.post('/register', async (req, res) => {
     const { fname, lname, email, phone, course, education } = req.body;
+    try {
+        const user = await prisma.students.createMany({
+            data: [
+                {
+                    fname: fname,
+                    lname: lname,
+                    email: email,
+                    phone: phone,
+                    course: course,
+                    education: education
+                }
+            ]
+        });
+        res.status(200).json(user)
+    } catch (err) { 
+        console.log(err)
+    }
+});
 
-    console.log(fname, lname, phone, email, phone, course, education);
-})
 
 
-app.post('/mail', (req, res) =>
-{
+
+
+
+async function main() {
+    const user = await prisma.students.findMany();
+    console.log(user);
+}
+
+main()
+    .catch(e => {
+        console.log(e.message);
+    })
+    .finally(async () => {
+        await prisma.$disconnect();
+    });
+
+
+
+
+
+
+
+app.post('/mail', (req, res) => {
     const { id } = req.body;
     let mailDetails = {
         from: '"Bytes Academy" <bytesacademy@hotmail.com>',
@@ -56,10 +94,8 @@ let mailTransporter = nodemailer.createTransport({
 });
 
 
-function sendMail(mailDetails)
-{
-    mailTransporter.sendMail(mailDetails, function (err, data)
-    {
+function sendMail(mailDetails) {
+    mailTransporter.sendMail(mailDetails, function (err, data) {
         if (err) {
             console.log(err);
         } else {
@@ -68,7 +104,6 @@ function sendMail(mailDetails)
     });
 
 }
-app.listen(5000, () =>
-{
+app.listen(5000, () => {
     console.log('Connected to Backend');
 });
