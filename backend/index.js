@@ -5,8 +5,8 @@ const mysql = require('mysql');
 const nodemailer = require('nodemailer');
 const http = require('http');
 const cors = require('cors');
-
 const app = express();
+const WebSocket = require('ws');
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -18,6 +18,71 @@ const db = mysql.createConnection({
 // app.use(express.json())
 app.use(cors());
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
+
+const wss = new WebSocket.Server({ noServer: true });
+let connections = [];
+
+wss.on('connection', (ws) => {
+    console.log('New WebSocket connection');
+    connections.push(ws);
+
+    ws.on('close', () => {
+        console.log('WebSocket connection closed');
+        connections = connections.filter(conn => conn !== ws);
+    });
+
+    ws.on('error', (error) => {
+        console.error('WebSocket error:', error);
+    });
+});
+
+const notifyClients = async() => {
+    const totalStudentsQuery = 'SELECT COUNT(*) AS count FROM students';
+    const htmlStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'html and css'";
+    const jsStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'javascript'";
+    const reactStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'react'";
+
+    db.query(totalStudentsQuery, (err, totalResult) => {
+        if (err) throw err;
+        const totalStudents = totalResult[0].count;
+
+        db.query(htmlStudentsQuery, (err, htmlResult) => {
+            if (err) throw err;
+            const htmlStudents = htmlResult[0].count;
+
+            db.query(jsStudentsQuery, (err, jsResult) => {
+                if (err) throw err;
+                const jsStudents = jsResult[0].count;
+
+                db.query(reactStudentsQuery, (err, reactResult) => {
+                    if (err) throw err;
+                    const reactStudents = reactResult[0].count;
+
+                    const data = {
+                        total: totalStudents,
+                        html: htmlStudents,
+                        js: jsStudents,
+                        react: reactStudents
+                    };
+
+                    connections.forEach(ws => {
+                        if (ws.readyState === WebSocket.OPEN) {
+                            ws.send(JSON.stringify(data));
+                        }
+                    });
+                });
+            });
+        });
+    });
+};
+setInterval(async () => {
+    await notifyClients();
+}, 1000);
+
 
 //Routes
 app.get('/', (req, res) => {
@@ -361,6 +426,10 @@ app.post('/register', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+
+
+
 
 
 let mailTransporter = nodemailer.createTransport({
