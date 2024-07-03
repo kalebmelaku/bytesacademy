@@ -20,7 +20,7 @@ const RegisterForm = () => {
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await axios.post(`${import.meta.env.VITE_API_KEY}/register`, data);
+			const response = await axios.post(`https://bytesacademy.drhibistpedriatician.com/register`, data);
 			if (response.status === 200) {
 				setMessage("Successfully registered");
 				setRegStatus("true");

@@ -1,24 +1,60 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
 const nodemailer = require('nodemailer');
-const http = require('http');
 const cors = require('cors');
-
 const app = express();
+const { PrismaClient } = require('@prisma/client');
+const WebSocket = require('ws');
 
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-});
 
 // app.use(express.json())
 app.use(cors());
 app.use(bodyParser.json());
 
+
+const wss = new WebSocket.Server({ noServer: true });
+let connections = [];
+const prisma = new PrismaClient();
+
+// WebSocket handling
+wss.on('connection', (ws) => {
+    console.log('New WebSocket connection');
+    connections.push(ws);
+
+    ws.on('close', () => {
+        console.log('WebSocket connection closed');
+        connections = connections.filter(conn => conn !== ws);
+    });
+
+    ws.on('error', (error) => {
+        console.error('WebSocket error:', error);
+    });
+});
+
+
+const notifyClients = async () => {
+    const totalStudents = await prisma.students.count();
+    const htmlStudents = await prisma.students.count({ where: { course: 'html and css' } });
+    const jsStudents = await prisma.students.count({ where: { course: 'javascript' } });
+    const reactStudents = await prisma.students.count({ where: { course: 'react' } });
+
+    const data = {
+        total: totalStudents,
+        html: htmlStudents,
+        js: jsStudents,
+        react: reactStudents
+    };
+
+    connections.forEach(ws => {
+        if (ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify(data));
+        }
+    });
+};
+setInterval(async () => {
+    await notifyClients();
+  }, 1000);
 //Routes
 app.get('/', (req, res) => {
     res.json('This is backend');
@@ -26,9 +62,9 @@ app.get('/', (req, res) => {
 
 app.post('/register', async (req, res) => {
     const { fname, lname, email, phone, course, education } = req.body;
-
     try {
-        const checkUserQuery = 'SELECT * FROM students WHERE email = ?';
+        const checkUser = await prisma.students.findUnique({ where: { email: email } });
+
         const template = `
 
         <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -330,37 +366,74 @@ app.post('/register', async (req, res) => {
         
         `;
 
-        db.query(checkUserQuery, [email], (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).json({ message: 'Database error' });
-            }
-
-            if (result.length > 0) {
-                return res.status(400).json({ message: 'Email already registered.' });
-            } else {
-                const newUserQuery = 'INSERT INTO students (fname, lname, email, phone, course, education) VALUES (?, ?, ?, ?, ?, ?)';
-                db.query(newUserQuery, [fname, lname, email, phone, course, education], (err, result) => {
-                    if (err) {
-                        console.error(err);
-                        return res.status(500).json({ message: 'Database error' });
+        if (checkUser !== null) {
+            res.status(400).json({ message: "Email already registered." });
+        } else {
+            const newUser = await prisma.students.createMany({
+                data: [
+                    {
+                        fname: fname,
+                        lname: lname,
+                        email: email,
+                        phone: phone,
+                        course: course,
+                        education: education
                     }
-
-                    let mailDetails = {
-                        from: '"Bytes Academy" <bytesacademy@hotmail.com>',
-                        to: email,
-                        subject: 'Thank You for Registration',
-                        html: template
-                    };
-                    sendMail(mailDetails, res);
-                });
+                ]
+            });
+            if (newUser) {
+                let mailDetails = {
+                    from: '"Bytes Academy" <bytesacademy@hotmail.com>',
+                    to: email,
+                    subject: 'Thank You for Registration',
+                    html: template
+                };
+                sendMail(mailDetails, res);
             }
-        });
+        }
+
+
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: 'Server error' });
     }
 });
+
+app.get('/fetchRegStudents', async (req, res) => {
+    // notifyClients();
+    // try {
+    //     // Fetch total students count
+    //     const totalStudents = await prisma.students.count();
+
+    //     // Fetch counts based on courses
+    //     const htmlStudents = await prisma.students.count({
+    //         where: { course: 'html and css' }
+    //     });
+
+    //     const jsStudents = await prisma.students.count({
+    //         where: { course: 'javascript' }
+    //     });
+
+    //     const reactStudents = await prisma.students.count({
+    //         where: { course: 'react' }
+    //     });
+
+    //     // Respond with JSON data
+    //     res.json({
+    //         total: totalStudents,
+    //         html: htmlStudents,
+    //         js: jsStudents,
+    //         react: reactStudents
+    //     });
+    // } catch (error) {
+    //     console.error('Error fetching student data:', error);
+    //     res.status(500).json({ error: 'Internal server error' });
+    // }
+});
+
+
+
+
+
 
 
 let mailTransporter = nodemailer.createTransport({
@@ -370,6 +443,7 @@ let mailTransporter = nodemailer.createTransport({
         pass: process.env.MAIL_PASS
     }
 });
+
 
 function sendMail(mailDetails, res) {
     mailTransporter.sendMail(mailDetails, function (err, data) {
@@ -382,6 +456,12 @@ function sendMail(mailDetails, res) {
 
 }
 
-app.listen(5000, () => {
+const server = app.listen(5000, () => {
     console.log('Connected to Backend');
+});
+// Upgrade HTTP server to handle WebSocket
+server.on('upgrade', (request, socket, head) => {
+    wss.handleUpgrade(request, socket, head, (ws) => {
+        wss.emit('connection', ws, request);
+    });
 });
