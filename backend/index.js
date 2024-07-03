@@ -23,65 +23,65 @@ app.use((req, res, next) => {
     next();
 });
 
-const wss = new WebSocket.Server({ noServer: true });
-let connections = [];
+// const wss = new WebSocket.Server({ noServer: true });
+// let connections = [];
 
-wss.on('connection', (ws) => {
-    console.log('New WebSocket connection');
-    connections.push(ws);
+// wss.on('connection', (ws) => {
+//     console.log('New WebSocket connection');
+//     connections.push(ws);
 
-    ws.on('close', () => {
-        console.log('WebSocket connection closed');
-        connections = connections.filter(conn => conn !== ws);
-    });
+//     ws.on('close', () => {
+//         console.log('WebSocket connection closed');
+//         connections = connections.filter(conn => conn !== ws);
+//     });
 
-    ws.on('error', (error) => {
-        console.error('WebSocket error:', error);
-    });
-});
+//     ws.on('error', (error) => {
+//         console.error('WebSocket error:', error);
+//     });
+// });
 
-const notifyClients = async() => {
-    const totalStudentsQuery = 'SELECT COUNT(*) AS count FROM students';
-    const htmlStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'html and css'";
-    const jsStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'javascript'";
-    const reactStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'react'";
+// const notifyClients = async() => {
+//     const totalStudentsQuery = 'SELECT COUNT(*) AS count FROM students';
+//     const htmlStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'html and css'";
+//     const jsStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'javascript'";
+//     const reactStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'react'";
 
-    db.query(totalStudentsQuery, (err, totalResult) => {
-        if (err) throw err;
-        const totalStudents = totalResult[0].count;
+//     db.query(totalStudentsQuery, (err, totalResult) => {
+//         if (err) throw err;
+//         const totalStudents = totalResult[0].count;
 
-        db.query(htmlStudentsQuery, (err, htmlResult) => {
-            if (err) throw err;
-            const htmlStudents = htmlResult[0].count;
+//         db.query(htmlStudentsQuery, (err, htmlResult) => {
+//             if (err) throw err;
+//             const htmlStudents = htmlResult[0].count;
 
-            db.query(jsStudentsQuery, (err, jsResult) => {
-                if (err) throw err;
-                const jsStudents = jsResult[0].count;
+//             db.query(jsStudentsQuery, (err, jsResult) => {
+//                 if (err) throw err;
+//                 const jsStudents = jsResult[0].count;
 
-                db.query(reactStudentsQuery, (err, reactResult) => {
-                    if (err) throw err;
-                    const reactStudents = reactResult[0].count;
+//                 db.query(reactStudentsQuery, (err, reactResult) => {
+//                     if (err) throw err;
+//                     const reactStudents = reactResult[0].count;
 
-                    const data = {
-                        total: totalStudents,
-                        html: htmlStudents,
-                        js: jsStudents,
-                        react: reactStudents
-                    };
+//                     const data = {
+//                         total: totalStudents,
+//                         html: htmlStudents,
+//                         js: jsStudents,
+//                         react: reactStudents
+//                     };
 
-                    connections.forEach(ws => {
-                        if (ws.readyState === WebSocket.OPEN) {
-                            ws.send(JSON.stringify(data));
-                        }
-                    });
-                });
-            });
-        });
-    });
-};
-setInterval(async () => {
-    await notifyClients();
-}, 1000);
+//                     connections.forEach(ws => {
+//                         if (ws.readyState === WebSocket.OPEN) {
+//                             ws.send(JSON.stringify(data));
+//                         }
+//                     });
+//                 });
+//             });
+//         });
+//     });
+// };
+// setInterval(async () => {
+//     await notifyClients();
+// }, 1000);
 
 
 //Routes
@@ -428,6 +428,51 @@ app.post('/register', async (req, res) => {
 });
 
 
+app.get('/fetchRegStudents', (req, res) => {
+    const totalStudentsQuery = 'SELECT COUNT(*) AS count FROM students';
+    const htmlStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'html and css'";
+    const jsStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'javascript'";
+    const reactStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'react'";
+
+    db.query(totalStudentsQuery, (err, totalResult) => {
+        if (err) {
+            console.error('Error fetching total students:', err);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        const totalStudents = totalResult[0].count;
+
+        db.query(htmlStudentsQuery, (err, htmlResult) => {
+            if (err) {
+                console.error('Error fetching HTML students:', err);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
+            const htmlStudents = htmlResult[0].count;
+
+            db.query(jsStudentsQuery, (err, jsResult) => {
+                if (err) {
+                    console.error('Error fetching JavaScript students:', err);
+                    return res.status(500).json({ error: 'Internal server error' });
+                }
+                const jsStudents = jsResult[0].count;
+
+                db.query(reactStudentsQuery, (err, reactResult) => {
+                    if (err) {
+                        console.error('Error fetching React students:', err);
+                        return res.status(500).json({ error: 'Internal server error' });
+                    }
+                    const reactStudents = reactResult[0].count;
+
+                    res.json({
+                        total: totalStudents,
+                        html: htmlStudents,
+                        js: jsStudents,
+                        react: reactStudents
+                    });
+                });
+            });
+        });
+    });
+});
 
 
 

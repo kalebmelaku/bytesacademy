@@ -11,38 +11,38 @@ function Admin() {
 		js: 0,
 		react: 0,
 	});
-	useEffect(() => {
-		const ws = new WebSocket(`ws://${import.meta.env.VITE_API_KEY}`);
-
-		ws.onmessage = (event) => {
-			const data = JSON.parse(event.data);
-			setStudentCounts(data);
-		};
-
-		ws.onclose = () => {
-			console.log("WebSocket connection closed");
-		};
-
-		return () => {
-			ws.close();
-		};
-	}, []);
 	// useEffect(() => {
-	// 	const fetchStudentCounts = async () => {
-	// 		try {
-	// 			const response = await axios.get(
-	// 				"http://localhost:5000/fetchRegStudents"
-	// 			); // Adjust URL as per your backend setup
-	// 			setStudentCounts(response.data);
-	// 		} catch (error) {
-	// 			console.error("Error fetching student counts:", error);
-	// 		}
+	// 	const ws = new WebSocket(`ws://${import.meta.env.VITE_API_KEY}`);
+
+	// 	ws.onmessage = (event) => {
+	// 		const data = JSON.parse(event.data);
+	// 		setStudentCounts(data);
 	// 	};
 
-	// 	// setInterval(() => {
-	// 	// 	fetchStudentCounts();
-	// 	// }, 1000);
+	// 	ws.onclose = () => {
+	// 		console.log("WebSocket connection closed");
+	// 	};
+
+	// 	return () => {
+	// 		ws.close();
+	// 	};
 	// }, []);
+	useEffect(() => {
+		const fetchStudentCounts = async () => {
+			try {
+				const response = await axios.get(
+					"https://bytesacademy.drhibistpedriatician.com/fetchRegStudents"
+				); // Adjust URL as per your backend setup
+				setStudentCounts(response.data);
+			} catch (error) {
+				console.error("Error fetching student counts:", error);
+			}
+		};
+
+		setInterval(() => {
+			fetchStudentCounts();
+		}, 10000);
+	}, []);
 	return (
 		<>
 			<div className="flex items-center justify-center  w-full sm:mx-auto lg:max-w-full lg:grid-cols-1">
