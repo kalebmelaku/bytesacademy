@@ -59,9 +59,9 @@ function Courses() {
 			<div className="py-3 font-montserrat container md:mx-auto flex flex-col justify-center items-center border">
 				<h1 className="text-2xl font-semibold">What You Will Learn</h1>
 				<ul className="ml-2 grid grid-cols-1 md:grid-cols-2">
-					{whatToLearn.map((what) => {
+					{whatToLearn.map((what, index) => {
 						return (
-							<li className="ml-4 py-4 flex">
+							<li className="ml-4 py-4 flex" key={index}>
 								<span className="mr-1">
 									<svg
 										className="w-5 h-5 mt-px text-secondary"
@@ -86,9 +86,9 @@ function Courses() {
 			<div className="py-3 font-montserrat container md:mx-auto flex flex-col justify-center items-center">
 				<h1 className="text-2xl font-semibold">Requirements</h1>
 				<ul className="ml-2 grid md:grid-cols-2">
-					{requirement.map((what) => {
+					{requirement.map((what, index) => {
 						return (
-							<li className="ml-4 py-4 flex">
+							<li className="ml-4 py-4 flex" key={index}>
 								<span className="mr-1">
 									<svg
 										className="w-5 h-5 mt-px text-secondary"

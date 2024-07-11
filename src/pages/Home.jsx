@@ -9,14 +9,14 @@ import NewsLetter from "../components/newsLetter";
 function Home() {
 	return (
 		<>
-				<Navbar />
+			<Navbar />
 			<div className="py-3 font-montserrat container md:mx-auto">
 				<Hero />
 				<AboutUs />
 				<Courses />
 				<Services />
 				<Contact />
-				<NewsLetter/>
+				<NewsLetter />
 			</div>
 		</>
 	);

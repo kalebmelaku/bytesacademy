@@ -4,18 +4,20 @@ import Register from "./pages/Register";
 import Footer from "./components/footer";
 import Courses from "./pages/Courses";
 import Admin from "./pages/Admin";
+import Maintenance from "./pages/Maintenance";
 
 function App() {
 	return (
 		<>
 			<Router>
 				<Routes>
-					<Route path="/" element={<Home />} />
+					{/* <Route path="/" element={<Home />} /> */}
+					<Route path="/" element={<Maintenance />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/courses/:id" element={<Courses />} />
 					<Route path="/admin" element={<Admin />} />
 				</Routes>
-				<Footer />
+				{/* <Footer /> */}
 			</Router>
 		</>
 	);

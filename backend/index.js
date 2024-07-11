@@ -9,18 +9,18 @@ const app = express();
 const WebSocket = require('ws');
 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
+  host: 'localhost',
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
 });
 
 // app.use(express.json())
 app.use(cors());
 app.use(bodyParser.json());
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
 });
 
 // const wss = new WebSocket.Server({ noServer: true });
@@ -86,15 +86,15 @@ app.use((req, res, next) => {
 
 //Routes
 app.get('/', (req, res) => {
-    res.json('This is backend');
+  res.json('This is backend');
 });
 
 app.post('/register', async (req, res) => {
-    const { fname, lname, email, phone, course, education } = req.body;
+  const { fname, lname, email, phone, course, education } = req.body;
 
-    try {
-        const checkUserQuery = 'SELECT * FROM students WHERE email = ?';
-        const template = `
+  try {
+    const checkUserQuery = 'SELECT * FROM students WHERE email = ?';
+    const template = `
 
         <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -395,107 +395,107 @@ app.post('/register', async (req, res) => {
         
         `;
 
-        db.query(checkUserQuery, [email], (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).json({ message: 'Database error' });
-            }
+    db.query(checkUserQuery, [email], (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Database error' });
+      }
 
-            if (result.length > 0) {
-                return res.status(400).json({ message: 'Email already registered.' });
-            } else {
-                const newUserQuery = 'INSERT INTO students (fname, lname, email, phone, course, education) VALUES (?, ?, ?, ?, ?, ?)';
-                db.query(newUserQuery, [fname, lname, email, phone, course, education], (err, result) => {
-                    if (err) {
-                        console.error(err);
-                        return res.status(500).json({ message: 'Database error' });
-                    }
+      if (result.length > 0) {
+        return res.status(400).json({ message: 'Email already registered.' });
+      } else {
+        const newUserQuery = 'INSERT INTO students (fname, lname, email, phone, course, education) VALUES (?, ?, ?, ?, ?, ?)';
+        db.query(newUserQuery, [fname, lname, email, phone, course, education], (err, result) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Database error' });
+          }
 
-                    let mailDetails = {
-                        from: '"Bytes Academy" <bytesacademy@hotmail.com>',
-                        to: email,
-                        subject: 'Thank You for Registration',
-                        html: template
-                    };
-                    sendMail(mailDetails, res);
-                });
-            }
+          let mailDetails = {
+            from: '"Bytes Academy" <bytesacademy@hotmail.com>',
+            to: email,
+            subject: 'Thank You for Registration',
+            html: template
+          };
+          sendMail(mailDetails, res);
         });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: 'Server error' });
-    }
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
 
 app.get('/fetchRegStudents', (req, res) => {
-    const totalStudentsQuery = 'SELECT COUNT(*) AS count FROM students';
-    const htmlStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'html and css'";
-    const jsStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'javascript'";
-    const reactStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'react'";
+  const totalStudentsQuery = 'SELECT COUNT(*) AS count FROM students';
+  const htmlStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'html and css'";
+  const jsStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'javascript'";
+  const reactStudentsQuery = "SELECT COUNT(*) AS count FROM students WHERE course = 'react'";
 
-    db.query(totalStudentsQuery, (err, totalResult) => {
+  db.query(totalStudentsQuery, (err, totalResult) => {
+    if (err) {
+      console.error('Error fetching total students:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    const totalStudents = totalResult[0].count;
+
+    db.query(htmlStudentsQuery, (err, htmlResult) => {
+      if (err) {
+        console.error('Error fetching HTML students:', err);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+      const htmlStudents = htmlResult[0].count;
+
+      db.query(jsStudentsQuery, (err, jsResult) => {
         if (err) {
-            console.error('Error fetching total students:', err);
-            return res.status(500).json({ error: 'Internal server error' });
+          console.error('Error fetching JavaScript students:', err);
+          return res.status(500).json({ error: 'Internal server error' });
         }
-        const totalStudents = totalResult[0].count;
+        const jsStudents = jsResult[0].count;
 
-        db.query(htmlStudentsQuery, (err, htmlResult) => {
-            if (err) {
-                console.error('Error fetching HTML students:', err);
-                return res.status(500).json({ error: 'Internal server error' });
-            }
-            const htmlStudents = htmlResult[0].count;
+        db.query(reactStudentsQuery, (err, reactResult) => {
+          if (err) {
+            console.error('Error fetching React students:', err);
+            return res.status(500).json({ error: 'Internal server error' });
+          }
+          const reactStudents = reactResult[0].count;
 
-            db.query(jsStudentsQuery, (err, jsResult) => {
-                if (err) {
-                    console.error('Error fetching JavaScript students:', err);
-                    return res.status(500).json({ error: 'Internal server error' });
-                }
-                const jsStudents = jsResult[0].count;
-
-                db.query(reactStudentsQuery, (err, reactResult) => {
-                    if (err) {
-                        console.error('Error fetching React students:', err);
-                        return res.status(500).json({ error: 'Internal server error' });
-                    }
-                    const reactStudents = reactResult[0].count;
-
-                    res.json({
-                        total: totalStudents,
-                        html: htmlStudents,
-                        js: jsStudents,
-                        react: reactStudents
-                    });
-                });
-            });
+          res.json({
+            total: totalStudents,
+            html: htmlStudents,
+            js: jsStudents,
+            react: reactStudents
+          });
         });
+      });
     });
+  });
 });
 
 
 
 
 let mailTransporter = nodemailer.createTransport({
-    service: 'hotmail',
-    auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS
-    }
+  service: 'hotmail',
+  auth: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASS
+  }
 });
 
 function sendMail(mailDetails, res) {
-    mailTransporter.sendMail(mailDetails, function (err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.status(200).json({ message: "Registered Successfully!" });
-        }
-    });
+  mailTransporter.sendMail(mailDetails, function (err, data) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({ message: "Registered Successfully!" });
+    }
+  });
 
 }
 
 app.listen(5000, () => {
-    console.log('Connected to Backend');
+  console.log('Connected to Backend');
 });
